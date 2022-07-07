@@ -55,10 +55,12 @@
                     </thead>
 
                     <tbody>
+                    {% for product in products %}
                     <tr>
-                        <td>1</td>
-                        <td>T-Shirt <br> Created at : 25-Aug-2020</td>
-                        <td>Quality product in low cost</td>
+                        
+                        <td>{{ product.id }}</td>
+                        <td>{{ product.title }} <br> Created at : 25-Aug-2020</td>
+                        <td>{{ product.description }}</td>
                         <td>
                             <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
                                 <dt class="col-sm-3 pb-0">
@@ -70,33 +72,8 @@
                                         <dd class="col-sm-8 pb-0">InStock : 50.</dd>
                                     </dl>
                                 </dd>
-                                <dt class="col-sm-3 pb-0">
-                                    XL/ Black/ Half
-                                </dt>
-                                <dd class="col-sm-9">
-                                    <dl class="row mb-0">
-                                        <dd class="col-sm-4 pb-0">Price : 200.0</dd>
-                                        <dd class="col-sm-8 pb-0">InStock : 50.</dd>
-                                    </dl>
-                                </dd>
-                                <dt class="col-sm-3 pb-0">
-                                    L/ Black/ Full
-                                </dt>
-                                <dd class="col-sm-9">
-                                    <dl class="row mb-0">
-                                        <dd class="col-sm-4 pb-0">Price : 200.0</dd>
-                                        <dd class="col-sm-8 pb-0">InStock : 50.</dd>
-                                    </dl>
-                                </dd>
-                                <dt class="col-sm-3 pb-0">
-                                    L/ Black/ Half
-                                </dt>
-                                <dd class="col-sm-9">
-                                    <dl class="row mb-0">
-                                        <dd class="col-sm-4 pb-0">Price : 200.0</dd>
-                                        <dd class="col-sm-8 pb-0">InStock : 50.</dd>
-                                    </dl>
-                                </dd>
+                           
+                                
                             </dl>
                             <button onclick="$('#variant').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
                             </button>
@@ -106,7 +83,10 @@
                                 <a href="" class="btn btn-success">Edit</a>
                             </div>
                         </td>
+
+                        
                     </tr>
+                    {% endfor %}
                     </tbody>
 
                 </table>
@@ -117,12 +97,51 @@
         <div class="card-footer">
             <div class="row justify-content-between">
                 <div class="col-md-6">
-                    <p>Showing 1 to 10 out of 100</p>
+                    <p id="showproduct">Showing {{ products.start_index }}-{{ products.end_index }}
+                        of {{ products.paginator.count }} results</p>
                 </div>
                 <div class="col-md-2">
 
                 </div>
             </div>
         </div>
+
+                            <div class="row ">
+                        <div class="col-lg-12 col-md-12 col-sm-12 mb-5">
+                            <nav aria-label="Page navigation example">
+                                {% if products.has_other_pages %}
+                                    <ul class="pagination justify-content-center">
+                                        {% if products.has_previous %}
+                                            <li class="page-item">
+                                                <a href="?page={{ products.previous_page_number }}" class="page-link">&laquo;</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item disabled">
+                                                <a class="page-link" style="margin-right: 10px">&laquo;</a>
+                                            </li>
+                                        {% endif %} {% for i in products.paginator.page_range %}
+                                        {% if products.number == i %}
+                                            <li class="page_item active">
+                                                <a class="page-link">{{ i }}</a>
+                                            </li>
+                                        {% else %}
+                                            <li class="page-item">
+                                            </li>
+                                            <a href="?page={{ i }}" class="page-link d-inline" style="padding: 20px">{{ i }}</a>
+                                        {% endif %} {% endfor %} {% if products.has_next %}
+                                        <li class="page-item">
+                                            <a href="?page={{ products.next_page_number }}"
+                                               class="page-link">&raquo;</a>
+                                        </li>
+                                    {% else %}
+                                        <li class="page-item disabled">
+                                            <a class="page-link">&raquo;</a>
+                                        </li>
+                                    {% endif %}
+                                    </ul>
+                                {% endif %}
+                            </nav>
+                        </div>
+                    </div>
     </div>
 {% endblock %}
